@@ -1,8 +1,7 @@
 package com.akrima.contact.projections;
 
+import java.sql.Blob;
 import java.util.Date;
-
-import org.bson.types.Binary;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,7 +28,7 @@ public class EmployeProjection {
 
 	private String phoneNumber;
 	
-	private Binary photo;
+	private Blob photo;
 	
 	private String office;
 	
