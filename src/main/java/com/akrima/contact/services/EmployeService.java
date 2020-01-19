@@ -52,12 +52,11 @@ public class EmployeService {
 	public Mono<EmployeProjection> save(Employe employe, MultipartFile multipartFile) {
 		Employe newEmploye = modelMapper.map(employe, Employe.class);
 		if (Objects.nonNull(multipartFile)) {
-			try {
-				newEmploye.setPhoto(new Binary(BsonBinarySubType.BINARY, multipartFile.getBytes()));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//			try {
+//				newEmploye.setPhoto(new Binary(BsonBinarySubType.BINARY, multipartFile.getBytes()));
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
 		}
 		return employeReactiveRepository.save(newEmploye).flatMap(empl -> {
 			EmployeProjection employeProjection = EmployeProjection.builder().id(empl.getId()).nom(empl.getNom())

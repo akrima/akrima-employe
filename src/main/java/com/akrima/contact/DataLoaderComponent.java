@@ -1,15 +1,14 @@
 package com.akrima.contact;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.io.IOUtils;
 import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
 import org.springframework.context.annotation.Configuration;
@@ -29,9 +28,8 @@ public class DataLoaderComponent {
 
 	private final EmployeReactiveRepository employeReactiveRepository;
 
-	private byte[] loadPhoto(int index) throws IOException, URISyntaxException {
-		return Files.readAllBytes(Paths.get(this.getClass().getResource("/images/"+index+".jpeg").toURI()));
-	    //return new ClassPathResource("/images/"+index+".jpeg");
+	private Resource loadPhoto(int index) {
+	    return new ClassPathResource("/images/"+index+".jpeg");
 	}
 	
 	
@@ -46,7 +44,7 @@ public class DataLoaderComponent {
 		for(int i=1; i<=50;i++) {
 			Employe employe;
 			try {
-				
+							
 				employe = Employe.builder().nom(faker.name().lastName()).prenom(faker.name().firstName())
 						.phoneNumber(faker.phoneNumber().cellPhone())
 						.dateNaissance(faker.date().birthday())
@@ -54,10 +52,11 @@ public class DataLoaderComponent {
 						.office(faker.country().capital())
 						.salary(Float.valueOf(faker.commerce().price(1000, 3000).replace(",", ".")))
 						.position(faker.job().position())
-						.photo(new Binary(loadPhoto(i)))
+						.photo(new Binary(BsonBinarySubType.BINARY, IOUtils.toByteArray(loadPhoto(i).getInputStream())))
 						.build();
 				employees.add(employe);
-			} catch (IllegalArgumentException | IOException | URISyntaxException e) {
+			} catch (IllegalArgumentException | IOException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

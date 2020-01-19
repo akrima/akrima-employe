@@ -1,10 +1,13 @@
 package com.akrima.contact.documents;
 
+import java.io.InputStream;
 import java.util.Date;
 
 import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.mongodb.gridfs.GridFS;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
