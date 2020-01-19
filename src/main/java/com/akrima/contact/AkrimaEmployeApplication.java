@@ -19,7 +19,7 @@ public class AkrimaEmployeApplication {
 			EmployeReactiveRepository employeReactiveRepository) {
 		return args -> {
 			dataLoaderComponent.createEmployee().subscribe(empl -> {
-				//System.out.println("---------------------> "+empl.toString());
+				System.out.println("---------------------> "+empl.toString());
 			});
 		};
 	}
