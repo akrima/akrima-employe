@@ -72,7 +72,8 @@ public class EmployeService {
 	}
 
 	public Flux<EmployeProjection> delete(String id) {
-		 employeReactiveRepository.deleteById(id);
+		Mono<Employe> employe = employeReactiveRepository.findById(id);
+		employe.map(el-> employeReactiveRepository.delete(el));
 		return findAll();
 	}
 }
