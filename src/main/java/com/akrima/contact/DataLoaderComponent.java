@@ -50,7 +50,7 @@ public class DataLoaderComponent {
 						.office(faker.country().capital())
 						.salary(Float.valueOf(faker.commerce().price(1000, 3000).replace(",", ".")))
 						.position(faker.job().position())
-						.photo(new Binary(BsonBinarySubType.BINARY, Files.readAllBytes(loadPhoto(i).getFile().toPath())))
+						.photo(new Binary(BsonBinarySubType.BINARY, new byte[loadPhoto(i).getInputStream().available()]))
 						.build();
 				employees.add(employe);
 			} catch (IllegalArgumentException | IOException e) {
