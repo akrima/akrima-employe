@@ -28,7 +28,7 @@ public class DataLoaderComponent {
 	private final EmployeReactiveRepository employeReactiveRepository;
 
 	private Resource loadPhoto(int index) {
-	    return new ClassPathResource("images/"+index+".jpeg");
+	    return new ClassPathResource("/images/"+index+".jpeg");
 	}
 	
 	
