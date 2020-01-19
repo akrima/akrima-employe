@@ -1,7 +1,9 @@
 package com.akrima.contact;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -27,8 +29,9 @@ public class DataLoaderComponent {
 
 	private final EmployeReactiveRepository employeReactiveRepository;
 
-	private Resource loadPhoto(int index) {
-	    return new ClassPathResource("/images/"+index+".jpeg");
+	private byte[] loadPhoto(int index) throws IOException, URISyntaxException {
+		return Files.readAllBytes(Paths.get(this.getClass().getResource("/images/"+index+".jpeg").toURI()));
+	    //return new ClassPathResource("/images/"+index+".jpeg");
 	}
 	
 	
@@ -43,6 +46,7 @@ public class DataLoaderComponent {
 		for(int i=1; i<=50;i++) {
 			Employe employe;
 			try {
+				
 				employe = Employe.builder().nom(faker.name().lastName()).prenom(faker.name().firstName())
 						.phoneNumber(faker.phoneNumber().cellPhone())
 						.dateNaissance(faker.date().birthday())
@@ -50,11 +54,10 @@ public class DataLoaderComponent {
 						.office(faker.country().capital())
 						.salary(Float.valueOf(faker.commerce().price(1000, 3000).replace(",", ".")))
 						.position(faker.job().position())
-						.photo(new Binary(BsonBinarySubType.BINARY, new byte[loadPhoto(i).getInputStream().available()]))
+						.photo(new Binary(loadPhoto(i)))
 						.build();
 				employees.add(employe);
-			} catch (IllegalArgumentException | IOException e) {
-				// TODO Auto-generated catch block
+			} catch (IllegalArgumentException | IOException | URISyntaxException e) {
 				e.printStackTrace();
 			}
 		}
