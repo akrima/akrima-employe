@@ -40,7 +40,7 @@ public class DataLoaderComponent {
 		
 		List<Employe> employees=new ArrayList<>();
 		
-		for(int i=0; i<50;i++) {
+		for(int i=1; i<=50;i++) {
 			Employe employe;
 			try {
 				employe = Employe.builder().nom(faker.name().lastName()).prenom(faker.name().firstName())
